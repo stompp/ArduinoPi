@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "cstddef": "cpp",
+        "istream": "cpp",
+        "ostream": "cpp",
+        "system_error": "cpp",
+        "iostream": "cpp",
+        "*.tcc": "cpp",
+        "cstdlib": "cpp",
+        "string": "cpp"
+    }
+}
