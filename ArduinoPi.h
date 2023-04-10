@@ -2,15 +2,28 @@
 #define _ARDUINOPI_H_
 
 #if defined(RPI)
-
-#include <cstdlib>
-#include <string.h>
-#include <cmath>
-#include <math.h>
+#include <stdio.h>
 #include <cstdio>
 #include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include <cctype>
+#include <cmath>
+#include <math.h>
+
 #include <limits.h>
 #include <wiringPi.h>
+#ifndef USE_SOFTPWM
+#define USE_SOFTPWM 1
+#endif
+
+#if USE_SOFTPWM == 1
+#include <softPwm.h>
+#ifdef analogWrite
+#undef analogWrite
+#define analogWrite softPwmWrite
+#endif
+#endif
 
 #define PI 3.1415926535897932384626433832795
 #define HALF_PI 1.5707963267948966192313216916398
@@ -25,6 +38,7 @@
 #ifndef FPSTR
 #define FPSTR
 #endif
+
 #ifndef ISR_ATTR
 #define ISR_ATTR
 #endif
@@ -64,7 +78,7 @@ typedef uint8_t byte;
 
 typedef void (*function_pointer)(void);
 void doLoop(function_pointer func);
-#define N_PINTERRUPTS 10
+#define N_PINTERRUPTS 16
 
 struct PInterruptData
 {
@@ -111,6 +125,12 @@ public:
     static void I7();
     static void I8();
     static void I9();
+    static void I10();
+    static void I11();
+    static void I12();
+    static void I13();
+    static void I14();
+    static void I15();
 };
 
 void interrupts();
@@ -120,6 +140,39 @@ void noInterrupts();
 void detachInterrupt(int pin);
 void attachInterrupt(int pin, void (*function)(void), int mode);
 
+long map(long x, long in_min, long in_max, long out_min, long out_max);
+
+// void randomSeed(unsigned long seed)
+// {
+//   if (seed != 0) {
+//     srandom(seed);
+//   }
+// }
+
+// long random(long howbig)
+// {
+//   if (howbig == 0) {
+//     return 0;
+//   }
+//   return random() % howbig;
+// }
+
+// long random(long howsmall, long howbig)
+// {
+//   if (howsmall >= howbig) {
+//     return howsmall;
+//   }
+//   long diff = howbig - howsmall;
+//   return random(diff) + howsmall;
+// }
+
+// long map(long x, long in_min, long in_max, long out_min, long out_max)
+// {
+//   return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+// }
+
+// unsigned int makeWord(unsigned int w) { return w; }
+// unsigned int makeWord(unsigned char h, unsigned char l) { return (h << 8) | l; }
 #endif
 
 #endif // _ARDUINOPI_H_

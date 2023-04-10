@@ -109,6 +109,24 @@ int PInterrupts::init(int index, int pin)
     case 9:
         wiringPiISR(pin, INT_EDGE_BOTH, &I9);
         break;
+    case 10:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I10);
+        break;
+    case 11:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I11);
+        break;
+    case 12:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I12);
+        break;
+    case 13:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I13);
+        break;
+    case 14:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I14);
+        break;
+    case 15:
+        wiringPiISR(pin, INT_EDGE_BOTH, &I15);
+        break;
 
     default:
         return -1;
@@ -187,6 +205,31 @@ void PInterrupts::I9()
 {
     checkInterrupt(ints[9]);
 }
+void PInterrupts::I10()
+{
+    checkInterrupt(ints[10]);
+}
+void PInterrupts::I11()
+{
+    checkInterrupt(ints[11]);
+}
+void PInterrupts::I12()
+{
+    checkInterrupt(ints[12]);
+}
+void PInterrupts::I13()
+{
+    checkInterrupt(ints[13]);
+}
+void PInterrupts::I14()
+{
+    checkInterrupt(ints[1]);
+}
+void PInterrupts::I15()
+{
+    checkInterrupt(ints[15]);
+}
+
 bool PInterrupts::enabled = true;
 PInterruptData PInterrupts::ints[N_PINTERRUPTS];
 
@@ -213,9 +256,14 @@ void attachInterrupt(int pin, void (*function)(void), int mode)
 
 void doLoop(function_pointer func)
 {
-  while (1)
-  {
-    func();
-  }
+    while (1)
+    {
+        func();
+    }
+}
+
+long map(long x, long in_min, long in_max, long out_min, long out_max)
+{
+    return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
 #endif
